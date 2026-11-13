@@ -4,15 +4,17 @@ import { ReportDetail } from './components/ReportDetail'
 import { SatelliteMap } from './components/SatelliteMap'
 import { SightingsGallery } from './components/SightingsGallery'
 import { ModelAccuracy } from './components/ModelAccuracy'
+import { KudzuExamples } from './components/KudzuExamples'
 import { fetchReports, type KudzuReport } from './lib/kudzuReports'
 import './App.css'
 
-type Tab = 'reports' | 'images' | 'accuracy'
+type Tab = 'reports' | 'images' | 'accuracy' | 'pictures'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'reports', label: 'Reports' },
   { id: 'images', label: 'Satellite images' },
   { id: 'accuracy', label: 'Model accuracy' },
+  { id: 'pictures', label: 'Pictures' },
 ]
 
 function App() {
@@ -106,6 +108,10 @@ function App() {
             </div>
           )}
           {!loading && !loadError && <ModelAccuracy reports={reports} />}
+        </main>
+      ) : tab === 'pictures' ? (
+        <main className="pictures-layout" role="tabpanel" id="panel-pictures" aria-labelledby="tab-pictures">
+          <KudzuExamples />
         </main>
       ) : (
         <section className="map-section" role="tabpanel" id="panel-images" aria-labelledby="tab-images">

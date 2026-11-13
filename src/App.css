@@ -177,6 +177,65 @@
   gap: 16px;
 }
 
+.pictures-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.kudzu-examples {
+  background: var(--neutral-0);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.example-grid {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.example-card {
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--neutral-0);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.example-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.example-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.example-text {
+  padding: 16px;
+}
+
+.example-text h3 {
+  font-size: 16px;
+  color: var(--neutral-800);
+}
+
+.example-text p {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--neutral-500);
+}
+
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
