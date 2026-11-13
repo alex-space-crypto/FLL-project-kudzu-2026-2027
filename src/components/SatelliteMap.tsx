@@ -6,6 +6,10 @@ import { NC_BOUNDS } from '../lib/northCarolina'
 import { createNaipLayer } from '../lib/naipLayer'
 import { AddressSearch } from './AddressSearch'
 
+const TERRAIN_TILE_URL =
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+const TERRAIN_ATTRIBUTION =
+  'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, USGS, NGA, EPA, USDA, NPS'
 const SINGLE_REPORT_ZOOM = 16
 const MIN_SELECTION_ZOOM = 15
 const ADDRESS_ZOOM = 17
@@ -62,7 +66,11 @@ export function SatelliteMap({ reports, onSelect, onReportArea }: Props) {
       maxBounds: L.latLngBounds(NC_BOUNDS).pad(0.2),
       maxBoundsViscosity: 1,
     })
-    createNaipLayer().addTo(map)
+    const terrainLayer = L.tileLayer(TERRAIN_TILE_URL, { attribution: TERRAIN_ATTRIBUTION, maxZoom: 19 })
+    terrainLayer.addTo(map)
+    L.control
+      .layers({ Terrain: terrainLayer, Aerial: createNaipLayer() }, undefined, { position: 'topright' })
+      .addTo(map)
     map.on('zoomend', () => {
       const currentZoom = map.getZoom()
       setZoom(currentZoom)
