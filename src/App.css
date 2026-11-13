@@ -168,6 +168,40 @@
   align-items: start;
 }
 
+.accuracy-layout {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.stat {
+  background: var(--green-50, var(--neutral-0));
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.stat dt {
+  color: var(--neutral-500);
+  font-size: 14px;
+}
+
+.stat dd {
+  margin: 8px 0 0;
+  color: var(--neutral-800);
+  font-size: 28px;
+  font-weight: 700;
+}
+
 .layout-form {
   position: sticky;
   top: 24px;

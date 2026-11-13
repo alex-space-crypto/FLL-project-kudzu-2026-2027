@@ -3,14 +3,16 @@ import { ReportForm } from './components/ReportForm'
 import { ReportDetail } from './components/ReportDetail'
 import { SatelliteMap } from './components/SatelliteMap'
 import { SightingsGallery } from './components/SightingsGallery'
+import { ModelAccuracy } from './components/ModelAccuracy'
 import { fetchReports, type KudzuReport } from './lib/kudzuReports'
 import './App.css'
 
-type Tab = 'reports' | 'images'
+type Tab = 'reports' | 'images' | 'accuracy'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'reports', label: 'Reports' },
   { id: 'images', label: 'Satellite images' },
+  { id: 'accuracy', label: 'Model accuracy' },
 ]
 
 function App() {
@@ -91,6 +93,19 @@ function App() {
             )}
             {!loading && !loadError && <SightingsGallery reports={reports} onSelect={setSelected} />}
           </section>
+        </main>
+      ) : tab === 'accuracy' ? (
+        <main className="accuracy-layout" role="tabpanel" id="panel-accuracy" aria-labelledby="tab-accuracy">
+          {loading && <p className="status-text">Loading sightings...</p>}
+          {!loading && loadError && (
+            <div className="error-box" role="alert">
+              <p>We couldn't load sightings: {loadError}</p>
+              <button type="button" className="secondary-button" onClick={loadReports}>
+                Try again
+              </button>
+            </div>
+          )}
+          {!loading && !loadError && <ModelAccuracy reports={reports} />}
         </main>
       ) : (
         <section className="map-section" role="tabpanel" id="panel-images" aria-labelledby="tab-images">
