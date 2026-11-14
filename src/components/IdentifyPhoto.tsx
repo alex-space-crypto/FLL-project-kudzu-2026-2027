@@ -83,15 +83,9 @@ export function IdentifyPhoto({ onSubmitted }: Props) {
         </div>
       )}
 
-      {file && (
-        <div className="identify-report">
-          <ReportForm
-            key={`${file.name}-${file.size}-${file.lastModified}`}
-            initialPhoto={file}
-            onCreated={onSubmitted}
-          />
-        </div>
-      )}
+      <div className="identify-report">
+        <ReportForm photo={file} onCreated={onSubmitted} />
+      </div>
     </div>
   )
 }

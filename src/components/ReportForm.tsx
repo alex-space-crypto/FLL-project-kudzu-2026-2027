@@ -5,17 +5,17 @@ import { isInNorthCarolina } from '../lib/northCarolina'
 type Props = {
   onCreated: () => void
   initialCoords?: { latitude: number; longitude: number } | null
-  initialPhoto?: File | null
+  photo?: File | null
 }
 
 type Status = 'idle' | 'locating' | 'submitting' | 'success' | 'error'
 
-export function ReportForm({ onCreated, initialCoords, initialPhoto = null }: Props) {
+export function ReportForm({ onCreated, initialCoords, photo: controlledPhoto }: Props) {
   const [latitude, setLatitude] = useState(initialCoords ? initialCoords.latitude.toFixed(6) : '')
   const [longitude, setLongitude] = useState(initialCoords ? initialCoords.longitude.toFixed(6) : '')
   const [locationName, setLocationName] = useState('')
   const [description, setDescription] = useState('')
-  const [photo, setPhoto] = useState<File | null>(null)
+  const [ownPhoto, setOwnPhoto] = useState<File | null>(null)
   const [status, setStatus] = useState<Status>('idle')
   const [message, setMessage] = useState('')
 
@@ -73,7 +73,7 @@ export function ReportForm({ onCreated, initialCoords, initialPhoto = null }: Pr
     setStatus('submitting')
     setMessage('')
     try {
-      const attachedPhoto = initialPhoto ?? photo
+      const attachedPhoto = controlledPhoto !== undefined ? controlledPhoto : ownPhoto
       const photoUrl = attachedPhoto ? await uploadPhoto(attachedPhoto) : null
       await createReport({
         latitude: lat,
@@ -87,7 +87,7 @@ export function ReportForm({ onCreated, initialCoords, initialPhoto = null }: Pr
       setLongitude('')
       setLocationName('')
       setDescription('')
-      setPhoto(null)
+      setOwnPhoto(null)
       setStatus('success')
       setMessage('Thanks! Your sighting has been added.')
       onCreated()
@@ -160,8 +160,10 @@ export function ReportForm({ onCreated, initialCoords, initialPhoto = null }: Pr
         />
       </div>
 
-      {initialPhoto ? (
-        <p className="field-note">Photo attached: {initialPhoto.name}</p>
+      {controlledPhoto !== undefined ? (
+        <p className="field-note">
+          {controlledPhoto ? `Photo attached: ${controlledPhoto.name}` : 'No photo attached. Choose one above to include it.'}
+        </p>
       ) : (
         <div className="field">
           <label htmlFor="photo">Photo (optional, up to 5 MB)</label>
@@ -169,7 +171,7 @@ export function ReportForm({ onCreated, initialCoords, initialPhoto = null }: Pr
             id="photo"
             type="file"
             accept="image/jpeg,image/png,image/webp,image/gif"
-            onChange={(e) => setPhoto(e.target.files?.[0] ?? null)}
+            onChange={(e) => setOwnPhoto(e.target.files?.[0] ?? null)}
           />
         </div>
       )}
