@@ -120,13 +120,11 @@ function App() {
           <div>
             <h1>Kudzu sightings</h1>
             <p className="tagline">{showUsSightings ? 'United States' : 'North Carolina'}</p>
-            {showUsSightings && (
-              <p className="attribution" role="status">
-                {occurrencesError
-                  ? `Could not load US sightings: ${occurrencesError}`
-                  : `${occurrences.length.toLocaleString()} US records from GBIF. Human observations, not verified kudzu IDs. Some records are CC BY-NC.`}
-              </p>
-            )}
+            <p className="attribution" role="status">
+              {occurrencesError
+                ? `Could not load past kudzu records: ${occurrencesError}`
+                : `${occurrences.length.toLocaleString()} past kudzu records (blue dots) from GBIF. Human observations, not verified kudzu IDs. Some records are CC BY-NC.`}
+            </p>
           </div>
           <div className="map-topbar-actions">
             <button

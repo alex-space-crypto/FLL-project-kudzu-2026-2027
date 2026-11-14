@@ -205,7 +205,7 @@ export function SatelliteMap({
 
   useEffect(() => {
     const map = mapRef.current
-    if (!map || !showUsSightings) return
+    if (!map) return
 
     const renderer = L.canvas({ padding: 0.5 })
     const layer = L.layerGroup().addTo(map)
@@ -216,7 +216,7 @@ export function SatelliteMap({
     return () => {
       layer.remove()
     }
-  }, [occurrences, showUsSightings])
+  }, [occurrences])
 
   function clearSelection() {
     areaRectRef.current?.remove()
