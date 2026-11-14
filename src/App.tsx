@@ -128,6 +128,9 @@ function App() {
             </p>
           </div>
           <div className="map-topbar-actions">
+            <button type="button" className="tone-button tone-green" onClick={() => setDialog('story')}>
+              Kudzu story
+            </button>
             <button
               type="button"
               className="secondary-button"
@@ -141,9 +144,6 @@ function App() {
             </button>
             <button type="button" className="tone-button tone-amber" onClick={() => setDialog('pictures')}>
               Pictures
-            </button>
-            <button type="button" className="tone-button tone-green" onClick={() => setDialog('story')}>
-              Kudzu story
             </button>
             <button type="button" className="primary-button" onClick={openReportForm}>
               Report sighting
