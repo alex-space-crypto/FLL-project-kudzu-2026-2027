@@ -4,7 +4,6 @@ import 'leaflet/dist/leaflet.css'
 import type { KudzuReport } from '../lib/kudzuReports'
 import { NC_BOUNDS } from '../lib/northCarolina'
 import { createNaipLayer } from '../lib/naipLayer'
-import { AddressSearch } from './AddressSearch'
 
 const TERRAIN_TILE_URL =
   'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
@@ -39,11 +38,12 @@ const AREA_STYLE: L.PathOptions = {
 
 type Props = {
   reports: KudzuReport[]
+  focusPoint?: { latitude: number; longitude: number } | null
   onSelect?: (report: KudzuReport) => void
   onReportArea?: (center: { lat: number; lng: number }) => void
 }
 
-export function SatelliteMap({ reports, onSelect, onReportArea }: Props) {
+export function SatelliteMap({ reports, focusPoint, onSelect, onReportArea }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<L.Map | null>(null)
   const areaRectRef = useRef<L.Rectangle | null>(null)
@@ -83,6 +83,11 @@ export function SatelliteMap({ reports, onSelect, onReportArea }: Props) {
       mapRef.current = null
     }
   }, [])
+
+  useEffect(() => {
+    if (!focusPoint) return
+    mapRef.current?.flyTo([focusPoint.latitude, focusPoint.longitude], ADDRESS_ZOOM, { duration: 1.2 })
+  }, [focusPoint])
 
   useEffect(() => {
     const map = mapRef.current
@@ -154,10 +159,6 @@ export function SatelliteMap({ reports, onSelect, onReportArea }: Props) {
     }
   }, [reports, onSelect])
 
-  function locateAddress(latitude: number, longitude: number) {
-    mapRef.current?.flyTo([latitude, longitude], ADDRESS_ZOOM, { duration: 1.2 })
-  }
-
   function clearSelection() {
     areaRectRef.current?.remove()
     areaRectRef.current = null
@@ -176,7 +177,6 @@ export function SatelliteMap({ reports, onSelect, onReportArea }: Props) {
     <>
       {onReportArea && (
         <div className="map-toolbar">
-          <AddressSearch onFound={locateAddress} />
           <div className="map-toolbar-actions">
             <button
               type="button"

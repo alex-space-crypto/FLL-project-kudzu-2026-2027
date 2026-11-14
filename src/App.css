@@ -1,16 +1,23 @@
-.app {
-  min-height: 100vh;
+.app-shell {
+  display: grid;
+  grid-template-columns: minmax(300px, 360px) 1fr;
+  height: 100vh;
 }
 
-.app-header {
+.sidebar {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px 24px;
-  padding: 24px 32px;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  overflow-y: auto;
   background: var(--neutral-0);
-  border-bottom: 1px solid var(--neutral-200);
+  border-right: 1px solid var(--neutral-200);
+}
+
+.sidebar-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .brand {
@@ -21,25 +28,97 @@
 
 .tagline {
   color: var(--neutral-500);
-  font-size: 15px;
+  font-size: 14px;
 }
 
-.map-section {
-  padding: 32px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.map-section .satellite-map {
-  height: 70vh;
-  min-height: 360px;
-}
-
-.map-toolbar {
+.sidebar-section {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-bottom: 16px;
+}
+
+.sidebar .section-heading {
+  margin-bottom: 0;
+}
+
+.sidebar .section-heading h2 {
+  font-size: 18px;
+}
+
+.sidebar .card {
+  padding: 16px;
+  box-shadow: none;
+}
+
+.sidebar .stat-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sidebar .stat dd {
+  font-size: 24px;
+}
+
+.sidebar .sightings-grid {
+  grid-template-columns: 1fr;
+}
+
+.map-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.map-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 24px;
+  background: var(--neutral-0);
+  border-bottom: 1px solid var(--neutral-200);
+}
+
+.map-topbar h1 {
+  font-size: 18px;
+  color: var(--neutral-800);
+}
+
+.map-topbar .tagline {
+  margin-top: 2px;
+}
+
+.map-topbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.map-stage .satellite-map {
+  flex: 1;
+  min-height: 0;
+  height: auto;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.map-toolbar {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 600;
+  width: min(380px, calc(100% - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: var(--neutral-0);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
 .address-search {
@@ -123,66 +202,6 @@
   }
 }
 
-.tabs {
-  display: flex;
-  gap: 8px;
-  padding: 0 32px;
-  background: var(--neutral-0);
-  border-bottom: 1px solid var(--neutral-200);
-  overflow-x: auto;
-}
-
-.tab {
-  padding: 14px 16px;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--neutral-500);
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.15s ease, border-color 0.15s ease;
-}
-
-.tab:hover {
-  color: var(--neutral-800);
-}
-
-.tab[aria-selected='true'] {
-  color: var(--green-700);
-  border-bottom-color: var(--green-600);
-}
-
-.tab:focus-visible {
-  outline: 3px solid var(--green-100);
-  outline-offset: -3px;
-}
-
-.layout {
-  display: grid;
-  grid-template-columns: minmax(280px, 380px) 1fr;
-  gap: 32px;
-  padding: 32px;
-  max-width: 1200px;
-  margin: 0 auto;
-  align-items: start;
-}
-
-.accuracy-layout {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.pictures-layout {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px;
-}
-
 .kudzu-examples {
   background: var(--neutral-0);
   border: 1px solid var(--neutral-200);
@@ -196,7 +215,7 @@
   padding: 0;
   margin: 24px 0 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 24px;
 }
 
@@ -238,12 +257,12 @@
 
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 16px;
 }
 
 .stat {
-  background: var(--green-50, var(--neutral-0));
+  background: var(--green-50);
   border: 1px solid var(--neutral-200);
   border-radius: var(--radius);
   padding: 16px;
@@ -259,11 +278,6 @@
   color: var(--neutral-800);
   font-size: 28px;
   font-weight: 700;
-}
-
-.layout-form {
-  position: sticky;
-  top: 24px;
 }
 
 .card {
@@ -560,11 +574,11 @@
   align-items: center;
   justify-content: center;
   padding: 16px;
-  z-index: 10;
+  z-index: 1000;
   animation: fade-in 0.15s ease;
 }
 
-.detail-panel {
+.modal-panel {
   position: relative;
   width: 100%;
   max-width: 640px;
@@ -574,6 +588,24 @@
   border-radius: var(--radius);
   box-shadow: 0 24px 48px rgb(0 0 0 / 0.25);
   animation: rise-in 0.2s ease;
+}
+
+.modal-wide {
+  max-width: 960px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+
+.modal-body .card,
+.modal-body .kudzu-examples {
+  padding: 0;
+  border: none;
+  box-shadow: none;
 }
 
 .close-button {
@@ -648,25 +680,30 @@
 }
 
 @media (max-width: 860px) {
-  .layout {
+  .app-shell {
     grid-template-columns: 1fr;
-    padding: 24px 16px;
-    gap: 24px;
+    height: auto;
   }
 
-  .layout-form {
-    position: static;
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--neutral-200);
+    overflow: visible;
   }
 
-  .app-header {
-    padding: 20px 16px;
+  .map-stage {
+    height: 80vh;
+    min-height: 480px;
   }
 
-  .tabs {
-    padding: 0 16px;
-  }
-
-  .map-section {
+  .map-topbar {
     padding: 16px;
+  }
+
+  .map-toolbar {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    width: auto;
   }
 }

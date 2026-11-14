@@ -98,7 +98,7 @@ export function ReportForm({ onCreated, initialCoords }: Props) {
   return (
     <form className="card report-form" onSubmit={handleSubmit}>
       <div className="card-heading">
-        <h2>Report kudzu</h2>
+        <h2 id="report-title">Report kudzu</h2>
         <p>Spotted vines in North Carolina? Add the location and a photo so others can find it.</p>
       </div>
 
