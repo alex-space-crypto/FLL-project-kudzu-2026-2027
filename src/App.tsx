@@ -9,6 +9,7 @@ import { ReportForm } from './components/ReportForm'
 import { SatelliteMap } from './components/SatelliteMap'
 import { SightingsGallery } from './components/SightingsGallery'
 import { fetchReports, type KudzuReport } from './lib/kudzuReports'
+import { fetchOccurrences, type KudzuOccurrence } from './lib/occurrences'
 import './App.css'
 
 type Dialog = 'report' | 'pictures' | 'identify' | null
@@ -22,6 +23,9 @@ function App() {
   const [selected, setSelected] = useState<KudzuReport | null>(null)
   const [reportCoords, setReportCoords] = useState<Coords | null>(null)
   const [focusPoint, setFocusPoint] = useState<Coords | null>(null)
+  const [showUsSightings, setShowUsSightings] = useState(false)
+  const [occurrences, setOccurrences] = useState<KudzuOccurrence[]>([])
+  const [occurrencesError, setOccurrencesError] = useState('')
 
   const loadReports = useCallback(async () => {
     setLoading(true)
@@ -38,6 +42,25 @@ function App() {
   useEffect(() => {
     void loadReports()
   }, [loadReports])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchOccurrences()
+      .then((rows) => {
+        if (cancelled) return
+        setOccurrences(rows)
+        setOccurrencesError('')
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return
+        setOccurrencesError(err instanceof Error ? err.message : 'Could not load US sightings.')
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const toggleUsSightings = useCallback(() => setShowUsSightings((active) => !active), [])
 
   const closeDetail = useCallback(() => setSelected(null), [])
   const closeDialog = useCallback(() => setDialog(null), [])
@@ -96,9 +119,24 @@ function App() {
         <header className="map-topbar">
           <div>
             <h1>Kudzu sightings</h1>
-            <p className="tagline">North Carolina</p>
+            <p className="tagline">{showUsSightings ? 'United States' : 'North Carolina'}</p>
+            {showUsSightings && (
+              <p className="attribution" role="status">
+                {occurrencesError
+                  ? `Could not load US sightings: ${occurrencesError}`
+                  : `${occurrences.length.toLocaleString()} US records from GBIF. Human observations, not verified kudzu IDs. Some records are CC BY-NC.`}
+              </p>
+            )}
           </div>
           <div className="map-topbar-actions">
+            <button
+              type="button"
+              className="secondary-button"
+              aria-pressed={showUsSightings}
+              onClick={toggleUsSightings}
+            >
+              {showUsSightings ? 'Show North Carolina only' : 'Show all US sightings'}
+            </button>
             <button type="button" className="tone-button tone-sky" onClick={() => setDialog('identify')}>
               Identify a photo
             </button>
@@ -113,6 +151,8 @@ function App() {
 
         <SatelliteMap
           reports={reports}
+          occurrences={occurrences}
+          showUsSightings={showUsSightings}
           focusPoint={focusPoint}
           onSelect={setSelected}
           onReportArea={reportArea}

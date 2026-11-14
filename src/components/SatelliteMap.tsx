@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import type { KudzuReport } from '../lib/kudzuReports'
+import type { KudzuOccurrence } from '../lib/occurrences'
 import { NC_BOUNDS } from '../lib/northCarolina'
 import { createNaipLayer } from '../lib/naipLayer'
 
@@ -12,6 +13,17 @@ const TERRAIN_ATTRIBUTION =
 const SINGLE_REPORT_ZOOM = 16
 const MIN_SELECTION_ZOOM = 15
 const ADDRESS_ZOOM = 17
+const NC_MAX_BOUNDS = L.latLngBounds(NC_BOUNDS).pad(0.2)
+const US_BOUNDS: L.LatLngBoundsLiteral = [
+  [15, -180],
+  [72, -60],
+]
+const US_VIEW_BOUNDS: L.LatLngBoundsLiteral = [
+  [24, -125],
+  [50, -66],
+]
+const NC_MIN_ZOOM = 6
+const US_MIN_ZOOM = 3
 const HALO_STYLE: L.CircleMarkerOptions = {
   radius: 22,
   color: '#facc15',
@@ -27,6 +39,14 @@ const MARKER_STYLE: L.CircleMarkerOptions = {
   fillColor: '#facc15',
   fillOpacity: 0.95,
 }
+const OCCURRENCE_STYLE: L.CircleMarkerOptions = {
+  radius: 4,
+  color: '#ffffff',
+  weight: 1,
+  fillColor: '#0284c7',
+  fillOpacity: 0.85,
+  interactive: false,
+}
 const AREA_STYLE: L.PathOptions = {
   color: '#facc15',
   weight: 2,
@@ -38,12 +58,21 @@ const AREA_STYLE: L.PathOptions = {
 
 type Props = {
   reports: KudzuReport[]
+  occurrences?: KudzuOccurrence[]
+  showUsSightings?: boolean
   focusPoint?: { latitude: number; longitude: number } | null
   onSelect?: (report: KudzuReport) => void
   onReportArea?: (center: { lat: number; lng: number }) => void
 }
 
-export function SatelliteMap({ reports, focusPoint, onSelect, onReportArea }: Props) {
+export function SatelliteMap({
+  reports,
+  occurrences = [],
+  showUsSightings = false,
+  focusPoint,
+  onSelect,
+  onReportArea,
+}: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<L.Map | null>(null)
   const areaRectRef = useRef<L.Rectangle | null>(null)
@@ -62,8 +91,8 @@ export function SatelliteMap({ reports, focusPoint, onSelect, onReportArea }: Pr
     if (!container) return
 
     const map = L.map(container, {
-      minZoom: 6,
-      maxBounds: L.latLngBounds(NC_BOUNDS).pad(0.2),
+      minZoom: NC_MIN_ZOOM,
+      maxBounds: NC_MAX_BOUNDS,
       maxBoundsViscosity: 1,
     })
     const terrainLayer = L.tileLayer(TERRAIN_TILE_URL, { attribution: TERRAIN_ATTRIBUTION, maxZoom: 19 })
@@ -88,6 +117,21 @@ export function SatelliteMap({ reports, focusPoint, onSelect, onReportArea }: Pr
     if (!focusPoint) return
     mapRef.current?.flyTo([focusPoint.latitude, focusPoint.longitude], ADDRESS_ZOOM, { duration: 1.2 })
   }, [focusPoint])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+
+    if (showUsSightings) {
+      map.setMaxBounds(L.latLngBounds(US_BOUNDS))
+      map.setMinZoom(US_MIN_ZOOM)
+      map.fitBounds(US_VIEW_BOUNDS)
+    } else {
+      map.setMaxBounds(NC_MAX_BOUNDS)
+      map.setMinZoom(NC_MIN_ZOOM)
+      map.fitBounds(NC_BOUNDS)
+    }
+  }, [showUsSightings])
 
   useEffect(() => {
     const map = mapRef.current
@@ -158,6 +202,21 @@ export function SatelliteMap({ reports, focusPoint, onSelect, onReportArea }: Pr
       layer.remove()
     }
   }, [reports, onSelect])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || !showUsSightings) return
+
+    const renderer = L.canvas({ padding: 0.5 })
+    const layer = L.layerGroup().addTo(map)
+    for (const occurrence of occurrences) {
+      L.circleMarker([occurrence.latitude, occurrence.longitude], { ...OCCURRENCE_STYLE, renderer }).addTo(layer)
+    }
+
+    return () => {
+      layer.remove()
+    }
+  }, [occurrences, showUsSightings])
 
   function clearSelection() {
     areaRectRef.current?.remove()
