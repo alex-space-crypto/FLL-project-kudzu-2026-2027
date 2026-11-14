@@ -684,6 +684,15 @@
   background: var(--green-700);
 }
 
+.tone-teal {
+  background: var(--teal-600);
+  color: var(--neutral-0);
+}
+
+.tone-teal:hover {
+  filter: brightness(0.9);
+}
+
 .tone-button:focus-visible {
   outline: 3px solid var(--amber-100);
   outline-offset: 2px;

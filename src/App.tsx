@@ -133,7 +133,7 @@ function App() {
             </button>
             <button
               type="button"
-              className="secondary-button"
+              className="tone-button tone-teal"
               aria-pressed={showUsSightings}
               onClick={toggleUsSightings}
             >
