@@ -1,7 +1,12 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
 import { identifyKudzuPhoto, type KudzuIdentification } from '../lib/identifyKudzu'
+import { ReportForm } from './ReportForm'
 
-export function IdentifyPhoto() {
+type Props = {
+  onSubmitted: () => void
+}
+
+export function IdentifyPhoto({ onSubmitted }: Props) {
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState('')
   const [busy, setBusy] = useState(false)
@@ -75,6 +80,16 @@ export function IdentifyPhoto() {
           {result.explanation && <p>{result.explanation}</p>}
           {result.lookAlikes && <p className="verdict-note">Could be confused with: {result.lookAlikes}</p>}
           <p className="verdict-note">This is an automated guess. Confirm in person before acting on it.</p>
+        </div>
+      )}
+
+      {file && (
+        <div className="identify-report">
+          <ReportForm
+            key={`${file.name}-${file.size}-${file.lastModified}`}
+            initialPhoto={file}
+            onCreated={onSubmitted}
+          />
         </div>
       )}
     </div>

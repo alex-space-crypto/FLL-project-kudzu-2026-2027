@@ -176,7 +176,7 @@ function App() {
       {dialog === 'identify' && (
         <Modal labelledBy="identify-title" onClose={closeDialog}>
           <div className="modal-body">
-            <IdentifyPhoto />
+            <IdentifyPhoto onSubmitted={loadReports} />
           </div>
         </Modal>
       )}

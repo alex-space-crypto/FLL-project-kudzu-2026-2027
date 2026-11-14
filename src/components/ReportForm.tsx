@@ -5,11 +5,12 @@ import { isInNorthCarolina } from '../lib/northCarolina'
 type Props = {
   onCreated: () => void
   initialCoords?: { latitude: number; longitude: number } | null
+  initialPhoto?: File | null
 }
 
 type Status = 'idle' | 'locating' | 'submitting' | 'success' | 'error'
 
-export function ReportForm({ onCreated, initialCoords }: Props) {
+export function ReportForm({ onCreated, initialCoords, initialPhoto = null }: Props) {
   const [latitude, setLatitude] = useState(initialCoords ? initialCoords.latitude.toFixed(6) : '')
   const [longitude, setLongitude] = useState(initialCoords ? initialCoords.longitude.toFixed(6) : '')
   const [locationName, setLocationName] = useState('')
@@ -72,7 +73,8 @@ export function ReportForm({ onCreated, initialCoords }: Props) {
     setStatus('submitting')
     setMessage('')
     try {
-      const photoUrl = photo ? await uploadPhoto(photo) : null
+      const attachedPhoto = initialPhoto ?? photo
+      const photoUrl = attachedPhoto ? await uploadPhoto(attachedPhoto) : null
       await createReport({
         latitude: lat,
         longitude: lng,
@@ -158,15 +160,19 @@ export function ReportForm({ onCreated, initialCoords }: Props) {
         />
       </div>
 
-      <div className="field">
-        <label htmlFor="photo">Photo (optional, up to 5 MB)</label>
-        <input
-          id="photo"
-          type="file"
-          accept="image/jpeg,image/png,image/webp,image/gif"
-          onChange={(e) => setPhoto(e.target.files?.[0] ?? null)}
-        />
-      </div>
+      {initialPhoto ? (
+        <p className="field-note">Photo attached: {initialPhoto.name}</p>
+      ) : (
+        <div className="field">
+          <label htmlFor="photo">Photo (optional, up to 5 MB)</label>
+          <input
+            id="photo"
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            onChange={(e) => setPhoto(e.target.files?.[0] ?? null)}
+          />
+        </div>
+      )}
 
       <button type="submit" className="primary-button" disabled={busy}>
         {status === 'submitting' ? 'Submitting...' : 'Submit sighting'}

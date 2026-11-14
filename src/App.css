@@ -692,6 +692,16 @@
   gap: 16px;
 }
 
+.identify-report {
+  padding-top: 16px;
+  border-top: 1px solid var(--neutral-200);
+}
+
+.field-note {
+  color: var(--neutral-500);
+  font-size: 14px;
+}
+
 .identify-preview {
   width: 100%;
   max-height: 280px;
