@@ -32,14 +32,17 @@ export async function createReport(report: NewKudzuReport): Promise<void> {
   if (error) throw new Error(error.message)
 }
 
-export async function uploadPhoto(file: File): Promise<string> {
+export function assertValidPhoto(file: File): void {
   if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
     throw new Error('Photo must be a JPG, PNG, WebP, or GIF image.')
   }
   if (file.size > MAX_PHOTO_BYTES) {
     throw new Error('Photo must be 5 MB or smaller.')
   }
+}
 
+export async function uploadPhoto(file: File): Promise<string> {
+  assertValidPhoto(file)
   const extension = file.name.split('.').pop()?.toLowerCase() ?? 'jpg'
   const path = `${crypto.randomUUID()}.${extension}`
 

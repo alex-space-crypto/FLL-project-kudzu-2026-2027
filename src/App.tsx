@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { AddressSearch } from './components/AddressSearch'
 import { KudzuExamples } from './components/KudzuExamples'
 import { Modal } from './components/Modal'
+import { IdentifyPhoto } from './components/IdentifyPhoto'
 import { ModelAccuracy } from './components/ModelAccuracy'
 import { ReportDetail } from './components/ReportDetail'
 import { ReportForm } from './components/ReportForm'
@@ -10,7 +11,7 @@ import { SightingsGallery } from './components/SightingsGallery'
 import { fetchReports, type KudzuReport } from './lib/kudzuReports'
 import './App.css'
 
-type Dialog = 'report' | 'pictures' | null
+type Dialog = 'report' | 'pictures' | 'identify' | null
 type Coords = { latitude: number; longitude: number }
 
 function App() {
@@ -98,7 +99,10 @@ function App() {
             <p className="tagline">North Carolina</p>
           </div>
           <div className="map-topbar-actions">
-            <button type="button" className="secondary-button" onClick={() => setDialog('pictures')}>
+            <button type="button" className="tone-button tone-sky" onClick={() => setDialog('identify')}>
+              Identify a photo
+            </button>
+            <button type="button" className="tone-button tone-amber" onClick={() => setDialog('pictures')}>
               Pictures
             </button>
             <button type="button" className="primary-button" onClick={openReportForm}>
@@ -127,6 +131,14 @@ function App() {
         <Modal labelledBy="examples-title" wide onClose={closeDialog}>
           <div className="modal-body">
             <KudzuExamples />
+          </div>
+        </Modal>
+      )}
+
+      {dialog === 'identify' && (
+        <Modal labelledBy="identify-title" onClose={closeDialog}>
+          <div className="modal-body">
+            <IdentifyPhoto />
           </div>
         </Modal>
       )}

@@ -1,0 +1,2 @@
+[functions.identify-kudzu]
+verify_jwt = false

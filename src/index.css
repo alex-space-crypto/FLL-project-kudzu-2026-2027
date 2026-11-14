@@ -1,21 +1,44 @@
 :root {
-  --green-50: #f3f8f1;
-  --green-100: #e2efdc;
-  --green-500: #3f7d3a;
-  --green-600: #2f6229;
-  --green-700: #234a1f;
-  --neutral-0: #ffffff;
-  --neutral-50: #f7f7f5;
-  --neutral-200: #e3e3de;
-  --neutral-500: #6b6f66;
-  --neutral-800: #262823;
+  --green-50: #eef8ea;
+  --green-100: #d9efcd;
+  --green-200: #b7e0a3;
+  --green-500: #3f8f3a;
+  --green-600: #2f7a2b;
+  --green-700: #22591f;
+
+  --sky-50: #eaf5fc;
+  --sky-100: #cfe9f8;
+  --sky-500: #2b8fcf;
+  --sky-600: #1f75b0;
+  --sky-700: #185c8c;
+
+  --amber-50: #fff8e4;
+  --amber-100: #ffeec2;
+  --amber-400: #f7c33c;
+  --amber-600: #b97a00;
+  --amber-700: #8a5a00;
+
+  --coral-50: #fff1ec;
+  --coral-600: #c4502a;
+  --coral-700: #9c3d1c;
+
+  --teal-50: #e6f7f4;
+  --teal-600: #137a6e;
+
   --error-600: #b42318;
   --error-50: #fdf1f0;
-  --success-600: #2f6229;
-  --success-50: #eef7ea;
+  --success-600: #137a6e;
+  --success-50: #e6f7f4;
+
+  --neutral-0: #ffffff;
+  --neutral-50: #f6f8f3;
+  --neutral-100: #eef1e9;
+  --neutral-200: #e1e5da;
+  --neutral-500: #62695b;
+  --neutral-800: #1f241c;
 
   --radius: 12px;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 4px 16px rgb(0 0 0 / 0.06);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.05), 0 6px 20px rgb(34 89 31 / 0.08);
 
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-weight: 400;
