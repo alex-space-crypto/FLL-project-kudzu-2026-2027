@@ -83,6 +83,16 @@ The sidebar's summary card shows the total number of sightings, how many include
 - **Some GBIF records are non-commercial only.** Several records are licensed CC BY-NC. Check the licensing before using the app commercially or publishing the blue dots in a commercial product.
 - **Yellow dots are only as accurate as the reports.** The app does not verify reported sightings.
 
+## Version history
+
+A log of the app's development so far, newest first. This describes the work done on the app, not the saved snapshots in Bolt's Version History (the clock icon in the header), which I cannot read from here.
+
+- **2026-11-15 – README updated.** Replaced the template README with full documentation of the layout, top-bar features, map tools, and data sources, then added the original template notes back at the bottom. Build and lint verified passing.
+- **2026-11-14 – Past observations data table added.** Created a table for the GBIF observation records (the blue dots) alongside the existing sightings table.
+- **2026-11-06 – Sightings storage added.** Created the sightings table where user-reported kudzu sightings and their photos are saved.
+- **Earlier – Photo identification, US/North Carolina map toggle, and story.** Added the photo check with the AI image model, the toggle between the whole US and North Carolina only, the area-selection tool, and the kudzu story guide.
+- **Initial build.** Map, address search, sidebar summary, reporting form, and picture gallery.
+
 ## Development notes
 
 - Built with React, TypeScript, and Vite. The map uses Leaflet.
