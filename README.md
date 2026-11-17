@@ -85,13 +85,36 @@ The sidebar's summary card shows the total number of sightings, how many include
 
 ## Version history
 
-A log of the app's development so far, newest first. This describes the work done on the app, not the saved snapshots in Bolt's Version History (the clock icon in the header), which I cannot read from here.
+The project has 28 saved versions in Bolt's Version History. They are listed newest first, matching the names and timestamps shown in the Version History panel.
 
-- **2026-11-15 – README updated.** Replaced the template README with full documentation of the layout, top-bar features, map tools, and data sources, then added the original template notes back at the bottom. Build and lint verified passing.
-- **2026-11-14 – Past observations data table added.** Created a table for the GBIF observation records (the blue dots) alongside the existing sightings table.
-- **2026-11-06 – Sightings storage added.** Created the sightings table where user-reported kudzu sightings and their photos are saved.
-- **Earlier – Photo identification, US/North Carolina map toggle, and story.** Added the photo check with the AI image model, the toggle between the whole US and North Carolina only, the area-selection tool, and the kudzu story guide.
-- **Initial build.** Map, address search, sidebar summary, reporting form, and picture gallery.
+1. **Add version history to README** — Nov 17, 11:35 AM
+2. **Add original template notes to README** — Nov 14, 7:39 PM
+3. **Update README with feature details and limits** — Nov 14, 2:47 PM
+4. **Add GBIF and user kudzu sightings** — Nov 14, 2:44 PM
+5. **Update toggle button color to teal** — Nov 14, 2:42 PM
+6. **Move Kudzu button to top-bar front** — Nov 14, 2:33 PM
+7. **Add Kudzu Story window and button** — Nov 14, 2:28 PM
+8. **Show report fields on window open** — Nov 14, 9:36 AM
+9. **Integrate report form into photo check** — Nov 14, 9:26 AM
+10. **Update map to show NC reports by default** — Nov 14, 9:23 AM
+11. **Add US kudzu occurrence map layer** — Nov 14, 8:34 AM
+12. **Add photo identification feature** — Nov 14, 8:25 AM
+13. **Restructure app layout to match screenshot** — Nov 14, 8:15 AM
+14. **Add terrain map option** — Nov 13, 5:55 PM
+15. **Add Kudzu Pictures Tab** — Nov 13, 5:50 PM
+16. **Add Model Accuracy tab** — Nov 13, 5:13 PM
+17. **Add NAIP aerial imagery layer** — Nov 6, 7:27 PM
+18. **Display latest imagery date from Esri** — Nov 6, 7:19 PM
+19. **Add Open in Google Earth link** — Nov 6, 7:09 PM
+20. **Add address lookup and search box** — Nov 6, 7:02 PM
+21. **Add zoom-gated area selection to satellite tab** — Nov 6, 6:59 PM
+22. **Update kudzu sightings to yellow** — Nov 6, 6:47 PM
+23. **Add pulsing ring to map sightings** — Nov 6, 6:46 PM
+24. **Restrict Kudzu Tracker to NC** — Nov 6, 6:44 PM
+25. **Recreate satellite map component** — Nov 6, 6:41 PM
+26. **Add satellite map sightings** — Nov 6, 6:40 PM
+27. **Create Kudzu Tracker app** — Nov 6, 6:36 PM
+28. **Importing Bolt Project** — Nov 6, 6:30 PM
 
 ## Development notes
 
